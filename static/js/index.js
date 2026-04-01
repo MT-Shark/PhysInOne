@@ -1,5 +1,172 @@
 window.HELP_IMPROVE_VIDEOJS = false;
 
+// Video Showcase State
+let currentTab = 'A';
+let currentVideoIndex = 0;
+let showcaseData = { A: [], B: [], C: [], D: [] };
+let showcaseInitialized = false;
+let hasInteractedWithShowcase = false;
+
+async function initShowcaseData() {
+    try {
+        const response = await fetch('static/videos/showcase/manifest.json', { cache: 'no-store' });
+        if (!response.ok) {
+            throw new Error('manifest.json not found');
+        }
+
+        const manifest = await response.json();
+        showcaseData = {
+            A: Array.isArray(manifest.A) ? manifest.A : [],
+            B: Array.isArray(manifest.B) ? manifest.B : [],
+            C: Array.isArray(manifest.C) ? manifest.C : [],
+            D: Array.isArray(manifest.D) ? manifest.D : []
+        };
+    } catch (error) {
+        console.warn('Failed to load showcase manifest:', error);
+        showcaseData = { A: [], B: [], C: [], D: [] };
+    }
+
+    updateIndicators();
+    updateShowcaseUI();
+    showcaseInitialized = true;
+}
+
+function getCurrentTabVideos() {
+    return showcaseData[currentTab] || [];
+}
+
+function setPlayerSource(videoPath, shouldPlay) {
+    const player = document.getElementById('showcase-player');
+    const emptyState = document.getElementById('showcase-empty');
+
+    if (!player || !emptyState) {
+        return;
+    }
+
+    if (!videoPath) {
+        player.pause();
+        player.removeAttribute('src');
+        player.load();
+        player.hidden = true;
+        emptyState.hidden = false;
+        return;
+    }
+
+    emptyState.hidden = true;
+    player.hidden = false;
+    player.src = videoPath;
+    player.load();
+
+    if (shouldPlay) {
+        player.play().catch((err) => {
+            console.log('Autoplay prevented:', err);
+        });
+    }
+}
+
+function updateShowcaseUI() {
+    const videos = getCurrentTabVideos();
+
+    if (videos.length === 0) {
+        currentVideoIndex = 0;
+        setPlayerSource('', false);
+        updateIndicators();
+        return;
+    }
+
+    if (currentVideoIndex >= videos.length) {
+        currentVideoIndex = 0;
+    }
+
+    setPlayerSource(videos[currentVideoIndex], hasInteractedWithShowcase);
+    updateIndicators();
+}
+
+function renderIndicators(count) {
+    const indicatorsContainer = document.getElementById('video-indicators');
+    if (!indicatorsContainer) {
+        return;
+    }
+
+    indicatorsContainer.innerHTML = '';
+    for (let i = 0; i < count; i++) {
+        const indicator = document.createElement('button');
+        indicator.type = 'button';
+        indicator.className = 'indicator';
+        indicator.dataset.index = String(i);
+        indicator.setAttribute('aria-label', `Go to scene ${i + 1}`);
+        indicator.addEventListener('click', () => goToShowcaseVideo(i));
+        indicatorsContainer.appendChild(indicator);
+    }
+}
+
+// Switch between tabs A, B, C, D
+function switchTab(tab) {
+    if (!showcaseInitialized) {
+        return;
+    }
+
+    hasInteractedWithShowcase = true;
+    currentTab = tab;
+    currentVideoIndex = 0;
+    
+    // Update tab button styles
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    tabBtns.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.tab === tab) {
+            btn.classList.add('active');
+        }
+    });
+
+    updateShowcaseUI();
+}
+
+// Change video using arrows
+function changeShowcaseVideo(direction) {
+    if (!showcaseInitialized) {
+        return;
+    }
+
+    hasInteractedWithShowcase = true;
+    const videos = getCurrentTabVideos();
+
+    if (videos.length === 0) {
+        return;
+    }
+
+    currentVideoIndex = (currentVideoIndex + direction + videos.length) % videos.length;
+    updateShowcaseUI();
+}
+
+// Go to specific video by clicking indicator
+function goToShowcaseVideo(index) {
+    if (!showcaseInitialized) {
+        return;
+    }
+
+    hasInteractedWithShowcase = true;
+    const videos = getCurrentTabVideos();
+
+    if (index < 0 || index >= videos.length) {
+        return;
+    }
+
+    currentVideoIndex = index;
+    updateShowcaseUI();
+}
+
+// Update indicator dots
+function updateIndicators() {
+    const videos = getCurrentTabVideos();
+    renderIndicators(videos.length);
+
+    const indicators = document.querySelectorAll('.video-indicators .indicator');
+    indicators.forEach((indicator, index) => {
+        indicator.classList.toggle('active', index === currentVideoIndex);
+    });
+}
+
 // More Works Dropdown Functionality
 function toggleMoreWorks() {
     const dropdown = document.getElementById('moreWorksDropdown');
@@ -35,42 +202,6 @@ document.addEventListener('keydown', function(event) {
         button.classList.remove('active');
     }
 });
-
-// Copy BibTeX to clipboard
-function copyBibTeX() {
-    const bibtexElement = document.getElementById('bibtex-code');
-    const button = document.querySelector('.copy-bibtex-btn');
-    const copyText = button.querySelector('.copy-text');
-    
-    if (bibtexElement) {
-        navigator.clipboard.writeText(bibtexElement.textContent).then(function() {
-            // Success feedback
-            button.classList.add('copied');
-            copyText.textContent = 'Cop';
-            
-            setTimeout(function() {
-                button.classList.remove('copied');
-                copyText.textContent = 'Copy';
-            }, 2000);
-        }).catch(function(err) {
-            console.error('Failed to copy: ', err);
-            // Fallback for older browsers
-            const textArea = document.createElement('textarea');
-            textArea.value = bibtexElement.textContent;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-            
-            button.classList.add('copied');
-            copyText.textContent = 'Cop';
-            setTimeout(function() {
-                button.classList.remove('copied');
-                copyText.textContent = 'Copy';
-            }, 2000);
-        });
-    }
-}
 
 // Scroll to top functionality
 function scrollToTop() {
@@ -129,7 +260,7 @@ $(document).ready(function() {
 		infinite: true,
 		autoplay: true,
 		autoplaySpeed: 5000,
-    }
+    };
 
 	// Initialize all div with carousel class
     var carousels = bulmaCarousel.attach('.carousel', options);
@@ -139,4 +270,6 @@ $(document).ready(function() {
     // Setup video autoplay for carousel
     setupVideoCarouselAutoplay();
 
-})
+    updateIndicators();
+    initShowcaseData();
+});
