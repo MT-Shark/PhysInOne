@@ -1,0 +1,22 @@
+window.SHOWCASE_MANIFEST = {
+  "A": [
+    "static/videos/showcase/A/FrictionStop_SpringStretch__bg002__uUyUqc_trajectory__CineCamera_2 - 副本.mp4",
+    "static/videos/showcase/A/MovingHitsStationary_ObliqueProjectile_BalloonFloat__bg151__N9Aalz_trajectory__CineCamera_8.mp4",
+    "static/videos/showcase/A/WindPushSameDir_DoublePendulum__bg001__v0uX4v_trajectory__CineCamera_10.mp4"
+  ],
+  "B": [
+    "static/videos/showcase/B/FrictionStop_SpringStretch__bg002__uUyUqc_trajectory__CineCamera_2.mp4",
+    "static/videos/showcase/B/MovingHitsStationary_ObliqueProjectile_BalloonFloat__bg151__N9Aalz_trajectory__CineCamera_8.mp4",
+    "static/videos/showcase/B/WindPushSameDir_DoublePendulum__bg001__v0uX4v_trajectory__CineCamera_10.mp4"
+  ],
+  "C": [
+    "static/videos/showcase/C/FrictionStop_SpringStretch__bg002__uUyUqc_trajectory__CineCamera_2.mp4",
+    "static/videos/showcase/C/MovingHitsMoving_AccelPanelSpin__bg002__5LsD3T_trajectory__CineCamera_2.mp4",
+    "static/videos/showcase/C/WindPushSameDir_DoublePendulum__bg001__v0uX4v_trajectory__CineCamera_10.mp4"
+  ],
+  "D": [
+    "static/videos/showcase/D/FrictionStop_SpringStretch__bg002__uUyUqc_trajectory__CineCamera_2.mp4",
+    "static/videos/showcase/D/MovingHitsStationary_ObliqueProjectile_BalloonFloat__bg151__N9Aalz_trajectory__CineCamera_8.mp4",
+    "static/videos/showcase/D/WindPushSameDir_DoublePendulum__bg001__v0uX4v_trajectory__CineCamera_10.mp4"
+  ]
+};

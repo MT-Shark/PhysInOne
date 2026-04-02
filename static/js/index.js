@@ -1,170 +1,63 @@
 window.HELP_IMPROVE_VIDEOJS = false;
 
-// Video Showcase State
-let currentTab = 'A';
-let currentVideoIndex = 0;
-let showcaseData = { A: [], B: [], C: [], D: [] };
-let showcaseInitialized = false;
-let hasInteractedWithShowcase = false;
+// Contributors functions
+async function initContributors() {
+    const grid = document.getElementById('contributors-grid');
+    if (!grid) {
+        return;
+    }
 
-async function initShowcaseData() {
+    if (window.CONTRIBUTORS_MANIFEST && Array.isArray(window.CONTRIBUTORS_MANIFEST.photos)) {
+        renderContributors(window.CONTRIBUTORS_MANIFEST.photos, grid);
+        return;
+    }
+
     try {
-        const response = await fetch('static/videos/showcase/manifest.json', { cache: 'no-store' });
+        const response = await fetch('static/images/Contributers/manifest.json', { cache: 'no-store' });
         if (!response.ok) {
-            throw new Error('manifest.json not found');
+            throw new Error('contributors manifest not found');
         }
 
         const manifest = await response.json();
-        showcaseData = {
-            A: Array.isArray(manifest.A) ? manifest.A : [],
-            B: Array.isArray(manifest.B) ? manifest.B : [],
-            C: Array.isArray(manifest.C) ? manifest.C : [],
-            D: Array.isArray(manifest.D) ? manifest.D : []
-        };
+        const photos = Array.isArray(manifest.photos) ? manifest.photos : [];
+        renderContributors(photos, grid);
     } catch (error) {
-        console.warn('Failed to load showcase manifest:', error);
-        showcaseData = { A: [], B: [], C: [], D: [] };
-    }
-
-    updateIndicators();
-    updateShowcaseUI();
-    showcaseInitialized = true;
-}
-
-function getCurrentTabVideos() {
-    return showcaseData[currentTab] || [];
-}
-
-function setPlayerSource(videoPath, shouldPlay) {
-    const player = document.getElementById('showcase-player');
-    const emptyState = document.getElementById('showcase-empty');
-
-    if (!player || !emptyState) {
-        return;
-    }
-
-    if (!videoPath) {
-        player.pause();
-        player.removeAttribute('src');
-        player.load();
-        player.hidden = true;
-        emptyState.hidden = false;
-        return;
-    }
-
-    emptyState.hidden = true;
-    player.hidden = false;
-    player.src = videoPath;
-    player.load();
-
-    if (shouldPlay) {
-        player.play().catch((err) => {
-            console.log('Autoplay prevented:', err);
-        });
+        console.warn('Failed to load contributors manifest:', error);
+        grid.innerHTML = '<p class="has-text-centered">No contributors found.</p>';
     }
 }
 
-function updateShowcaseUI() {
-    const videos = getCurrentTabVideos();
+function renderContributors(photos, grid) {
+    grid.innerHTML = '';
+    photos.forEach((photoPath) => {
+        const card = document.createElement('article');
+        card.className = 'contributor-card';
 
-    if (videos.length === 0) {
-        currentVideoIndex = 0;
-        setPlayerSource('', false);
-        updateIndicators();
-        return;
-    }
+        const avatarWrap = document.createElement('div');
+        avatarWrap.className = 'contributor-avatar-wrap';
 
-    if (currentVideoIndex >= videos.length) {
-        currentVideoIndex = 0;
-    }
+        const image = document.createElement('img');
+        image.className = 'contributor-avatar';
+        image.src = encodeURI(photoPath);
+        image.alt = 'Contributor photo';
+        image.loading = 'lazy';
 
-    setPlayerSource(videos[currentVideoIndex], hasInteractedWithShowcase);
-    updateIndicators();
-}
+        const name = document.createElement('p');
+        name.className = 'contributor-name';
+        name.textContent = extractContributorName(photoPath);
 
-function renderIndicators(count) {
-    const indicatorsContainer = document.getElementById('video-indicators');
-    if (!indicatorsContainer) {
-        return;
-    }
-
-    indicatorsContainer.innerHTML = '';
-    for (let i = 0; i < count; i++) {
-        const indicator = document.createElement('button');
-        indicator.type = 'button';
-        indicator.className = 'indicator';
-        indicator.dataset.index = String(i);
-        indicator.setAttribute('aria-label', `Go to scene ${i + 1}`);
-        indicator.addEventListener('click', () => goToShowcaseVideo(i));
-        indicatorsContainer.appendChild(indicator);
-    }
-}
-
-// Switch between tabs A, B, C, D
-function switchTab(tab) {
-    if (!showcaseInitialized) {
-        return;
-    }
-
-    hasInteractedWithShowcase = true;
-    currentTab = tab;
-    currentVideoIndex = 0;
-    
-    // Update tab button styles
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    tabBtns.forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.dataset.tab === tab) {
-            btn.classList.add('active');
-        }
+        avatarWrap.appendChild(image);
+        card.appendChild(avatarWrap);
+        card.appendChild(name);
+        grid.appendChild(card);
     });
-
-    updateShowcaseUI();
 }
 
-// Change video using arrows
-function changeShowcaseVideo(direction) {
-    if (!showcaseInitialized) {
-        return;
-    }
-
-    hasInteractedWithShowcase = true;
-    const videos = getCurrentTabVideos();
-
-    if (videos.length === 0) {
-        return;
-    }
-
-    currentVideoIndex = (currentVideoIndex + direction + videos.length) % videos.length;
-    updateShowcaseUI();
-}
-
-// Go to specific video by clicking indicator
-function goToShowcaseVideo(index) {
-    if (!showcaseInitialized) {
-        return;
-    }
-
-    hasInteractedWithShowcase = true;
-    const videos = getCurrentTabVideos();
-
-    if (index < 0 || index >= videos.length) {
-        return;
-    }
-
-    currentVideoIndex = index;
-    updateShowcaseUI();
-}
-
-// Update indicator dots
-function updateIndicators() {
-    const videos = getCurrentTabVideos();
-    renderIndicators(videos.length);
-
-    const indicators = document.querySelectorAll('.video-indicators .indicator');
-    indicators.forEach((indicator, index) => {
-        indicator.classList.toggle('active', index === currentVideoIndex);
-    });
+function extractContributorName(path) {
+    const parts = path.split('/');
+    const filename = parts[parts.length - 1] || '';
+    const clean = filename.replace(/\.[^.]+$/, '');
+    return clean;
 }
 
 // More Works Dropdown Functionality
@@ -188,8 +81,8 @@ document.addEventListener('click', function(event) {
     const button = document.querySelector('.more-works-btn');
     
     if (container && !container.contains(event.target)) {
-        dropdown.classList.remove('show');
-        button.classList.remove('active');
+        if (dropdown) dropdown.classList.remove('show');
+        if (button) button.classList.remove('active');
     }
 });
 
@@ -198,8 +91,8 @@ document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
         const dropdown = document.getElementById('moreWorksDropdown');
         const button = document.querySelector('.more-works-btn');
-        dropdown.classList.remove('show');
-        button.classList.remove('active');
+        if (dropdown) dropdown.classList.remove('show');
+        if (button) button.classList.remove('active');
     }
 });
 
@@ -214,10 +107,12 @@ function scrollToTop() {
 // Show/hide scroll to top button
 window.addEventListener('scroll', function() {
     const scrollButton = document.querySelector('.scroll-to-top');
-    if (window.pageYOffset > 300) {
-        scrollButton.classList.add('visible');
-    } else {
-        scrollButton.classList.remove('visible');
+    if (scrollButton) {
+        if (window.pageYOffset > 300) {
+            scrollButton.classList.add('visible');
+        } else {
+            scrollButton.classList.remove('visible');
+        }
     }
 });
 
@@ -231,18 +126,15 @@ function setupVideoCarouselAutoplay() {
         entries.forEach(entry => {
             const video = entry.target;
             if (entry.isIntersecting) {
-                // Video is in view, play it
                 video.play().catch(e => {
-                    // Autoplay failed, probably due to browser policy
                     console.log('Autoplay prevented:', e);
                 });
             } else {
-                // Video is out of view, pause it
                 video.pause();
             }
         });
     }, {
-        threshold: 0.5 // Trigger when 50% of the video is visible
+        threshold: 0.5
     });
     
     carouselVideos.forEach(video => {
@@ -251,25 +143,18 @@ function setupVideoCarouselAutoplay() {
 }
 
 $(document).ready(function() {
-    // Check for click events on the navbar burger icon
-
     var options = {
-		slidesToScroll: 1,
-		slidesToShow: 1,
-		loop: true,
-		infinite: true,
-		autoplay: true,
-		autoplaySpeed: 5000,
+        slidesToScroll: 1,
+        slidesToShow: 1,
+        loop: true,
+        infinite: true,
+        autoplay: true,
+        autoplaySpeed: 5000,
     };
 
-	// Initialize all div with carousel class
     var carousels = bulmaCarousel.attach('.carousel', options);
-	
     bulmaSlider.attach();
     
-    // Setup video autoplay for carousel
     setupVideoCarouselAutoplay();
-
-    updateIndicators();
-    initShowcaseData();
+    initContributors();
 });

@@ -98,6 +98,7 @@
   <script defer src="static/js/fontawesome.all.min.js"></script>
   <script defer src="static/js/bulma-carousel.min.js"></script>
   <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/images/Contributers/manifest.js"></script>
   <script defer src="static/js/index.js"></script>
   
   <!-- Structured Data for Academic Papers -->
@@ -358,41 +359,140 @@
       
       <!-- Tab Buttons -->
       <div class="video-showcase-tabs">
-        <button class="tab-btn active" data-tab="A" onclick="switchTab('A')">A</button>
-        <button class="tab-btn" data-tab="B" onclick="switchTab('B')">B</button>
-        <button class="tab-btn" data-tab="C" onclick="switchTab('C')">C</button>
-        <button class="tab-btn" data-tab="D" onclick="switchTab('D')">D</button>
+        <button class="tab-btn active" data-tab="A" onclick="switchShowcaseTab('A')">A</button>
+        <button class="tab-btn" data-tab="B" onclick="switchShowcaseTab('B')">B</button>
+        <button class="tab-btn" data-tab="C" onclick="switchShowcaseTab('C')">C</button>
+        <button class="tab-btn" data-tab="D" onclick="switchShowcaseTab('D')">D</button>
       </div>
       
       <!-- Video Showcase Container -->
       <div class="video-showcase-container">
         <!-- Left Arrow -->
-        <button class="showcase-arrow showcase-arrow-left" type="button" onclick="changeShowcaseVideo(-1)">
-          <i class="fas fa-chevron-left"></i>
-        </button>
+        <button class="showcase-arrow showcase-arrow-left" type="button" onclick="prevShowcaseVideo()">&#10094;</button>
         
         <!-- Video Display Area -->
         <div class="video-showcase-display">
-          <video id="showcase-player" class="showcase-video" controls preload="metadata"></video>
-          <p id="showcase-empty" class="showcase-empty" hidden>No video found in this category.</p>
+          <video id="showcase-video" class="showcase-video" controls preload="metadata"></video>
         </div>
         
         <!-- Right Arrow -->
-        <button class="showcase-arrow showcase-arrow-right" type="button" onclick="changeShowcaseVideo(1)">
-          <i class="fas fa-chevron-right"></i>
-        </button>
+        <button class="showcase-arrow showcase-arrow-right" type="button" onclick="nextShowcaseVideo()">&#10095;</button>
       </div>
       
       <!-- Video Indicators -->
-      <div class="video-indicators" id="video-indicators"></div>
+      <div class="video-indicators">
+        <span class="indicator active" onclick="goToShowcaseVideo(0)"></span>
+        <span class="indicator" onclick="goToShowcaseVideo(1)"></span>
+        <span class="indicator" onclick="goToShowcaseVideo(2)"></span>
+      </div>
       
       <h2 class="subtitle has-text-centered showcase-description">
-        Click tab A/B/C/D to start playing. Use arrows to switch scenes in the selected tab.
+        Click tab A/B/C/D to switch category. Use arrows to switch scenes.
       </h2>
     </div>
   </div>
 </section>
 <!-- End Video Showcase Section -->
+
+<script>
+// Showcase videos - hardcoded paths (use raw paths, browser handles encoding)
+const showcaseVideos = {
+  A: [
+    "static/videos/showcase/A/FrictionStop_SpringStretch__bg002__uUyUqc_trajectory__CineCamera_2 - 副本.mp4",
+    "static/videos/showcase/A/MovingHitsStationary_ObliqueProjectile_BalloonFloat__bg151__N9Aalz_trajectory__CineCamera_8.mp4",
+    "static/videos/showcase/A/WindPushSameDir_DoublePendulum__bg001__v0uX4v_trajectory__CineCamera_10.mp4"
+  ],
+  B: [
+    "static/videos/showcase/B/FrictionStop_SpringStretch__bg002__uUyUqc_trajectory__CineCamera_2.mp4",
+    "static/videos/showcase/B/MovingHitsStationary_ObliqueProjectile_BalloonFloat__bg151__N9Aalz_trajectory__CineCamera_8.mp4",
+    "static/videos/showcase/B/WindPushSameDir_DoublePendulum__bg001__v0uX4v_trajectory__CineCamera_10.mp4"
+  ],
+  C: [
+    "static/videos/showcase/C/FrictionStop_SpringStretch__bg002__uUyUqc_trajectory__CineCamera_2.mp4",
+    "static/videos/showcase/C/MovingHitsMoving_AccelPanelSpin__bg002__5LsD3T_trajectory__CineCamera_2.mp4",
+    "static/videos/showcase/C/WindPushSameDir_DoublePendulum__bg001__v0uX4v_trajectory__CineCamera_10.mp4"
+  ],
+  D: [
+    "static/videos/showcase/D/FrictionStop_SpringStretch__bg002__uUyUqc_trajectory__CineCamera_2.mp4",
+    "static/videos/showcase/D/MovingHitsStationary_ObliqueProjectile_BalloonFloat__bg151__N9Aalz_trajectory__CineCamera_8.mp4",
+    "static/videos/showcase/D/WindPushSameDir_DoublePendulum__bg001__v0uX4v_trajectory__CineCamera_10.mp4"
+  ]
+};
+
+let currentShowcaseTab = 'A';
+let currentShowcaseIndex = 0;
+
+function loadShowcaseVideo() {
+  const video = document.getElementById('showcase-video');
+  const videos = showcaseVideos[currentShowcaseTab];
+  console.log('Loading video:', currentShowcaseTab, currentShowcaseIndex, videos ? videos[currentShowcaseIndex] : 'no videos');
+  if (video && videos && videos[currentShowcaseIndex]) {
+    const src = encodeURI(videos[currentShowcaseIndex]);
+    console.log('Setting src:', src);
+    
+    // Add error handling
+    video.onerror = function(e) {
+      console.error('Video error:', video.error);
+    };
+    video.onloadeddata = function() {
+      console.log('Video loaded successfully, dimensions:', video.videoWidth, 'x', video.videoHeight);
+    };
+    
+    video.src = src;
+    video.load();
+  }
+  updateShowcaseIndicators();
+}
+
+function switchShowcaseTab(tab) {
+  currentShowcaseTab = tab;
+  currentShowcaseIndex = 0;
+  
+  // Update tab buttons
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === tab);
+  });
+  
+  loadShowcaseVideo();
+}
+
+function prevShowcaseVideo() {
+  const videos = showcaseVideos[currentShowcaseTab];
+  currentShowcaseIndex = (currentShowcaseIndex - 1 + videos.length) % videos.length;
+  loadShowcaseVideo();
+}
+
+function nextShowcaseVideo() {
+  const videos = showcaseVideos[currentShowcaseTab];
+  currentShowcaseIndex = (currentShowcaseIndex + 1) % videos.length;
+  loadShowcaseVideo();
+}
+
+function goToShowcaseVideo(index) {
+  currentShowcaseIndex = index;
+  loadShowcaseVideo();
+}
+
+function updateShowcaseIndicators() {
+  document.querySelectorAll('.video-indicators .indicator').forEach((ind, i) => {
+    ind.classList.toggle('active', i === currentShowcaseIndex);
+  });
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+  loadShowcaseVideo();
+});
+</script>
+
+<!-- Contributor Wall -->
+<section class="section contributor-wall-section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Contributors</h2>
+    <div id="contributors-grid" class="contributors-grid"></div>
+  </div>
+</section>
+<!-- End Contributor Wall -->
 
 
   <footer class="footer">
