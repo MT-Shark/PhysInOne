@@ -3,7 +3,7 @@ $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot
 $showcaseRoot = Join-Path $projectRoot 'static\videos\showcase'
 $outputPath = Join-Path $showcaseRoot 'manifest.json'
-$categories = @('A', 'B', 'C', 'D')
+$categories = @('Mechanics', 'Fluid Dynamics', 'Magnetism', 'Optics')
 $allowedExt = @('.mp4', '.webm', '.ogg', '.mov', '.m4v')
 
 $manifest = [ordered]@{}

@@ -99,6 +99,8 @@
   <script defer src="static/js/bulma-carousel.min.js"></script>
   <script defer src="static/js/bulma-slider.min.js"></script>
   <script defer src="static/images/Contributers/manifest.js"></script>
+  <script defer src="static/videos/showcase/manifest.js"></script>
+  <script defer src="static/js/contributors-order.js"></script>
   <script defer src="static/js/index.js"></script>
   
   <!-- Structured Data for Academic Papers -->
@@ -178,54 +180,6 @@
     <i class="fas fa-chevron-up"></i>
   </button>
 
-  <!-- More Works Dropdown -->
-  <div class="more-works-container">
-    <button class="more-works-btn" onclick="toggleMoreWorks()" title="View More Works from Our Lab">
-      <i class="fas fa-flask"></i>
-      More Works
-      <i class="fas fa-chevron-down dropdown-arrow"></i>
-    </button>
-    <div class="more-works-dropdown" id="moreWorksDropdown">
-      <div class="dropdown-header">
-        <h4>More Works from Our Lab</h4>
-        <button class="close-btn" onclick="toggleMoreWorks()">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="works-list">
-        <!-- TODO: Replace with your lab's related works -->
-        <a href="https://arxiv.org/abs/PAPER_ID_1" class="work-item" target="_blank">
-          <div class="work-info">
-            <!-- TODO: Replace with actual paper title -->
-            <h5>Paper Title 1</h5>
-            <!-- TODO: Replace with brief description -->
-            <p>Brief description of the work and its main contribution.</p>
-            <!-- TODO: Replace with venue and year -->
-            <span class="work-venue">Conference/Journal 2024</span>
-          </div>
-          <i class="fas fa-external-link-alt"></i>
-        </a>
-        <!-- TODO: Add more related works or remove extra items -->
-        <a href="https://arxiv.org/abs/PAPER_ID_2" class="work-item" target="_blank">
-          <div class="work-info">
-            <h5>Paper Title 2</h5>
-            <p>Brief description of the work and its main contribution.</p>
-            <span class="work-venue">Conference/Journal 2023</span>
-          </div>
-          <i class="fas fa-external-link-alt"></i>
-        </a>
-        <a href="https://arxiv.org/abs/PAPER_ID_3" class="work-item" target="_blank">
-          <div class="work-info">
-            <h5>Paper Title 3</h5>
-            <p>Brief description of the work and its main contribution.</p>
-            <span class="work-venue">Conference/Journal 2023</span>
-          </div>
-          <i class="fas fa-external-link-alt"></i>
-        </a>
-      </div>
-    </div>
-  </div>
-
   <main id="main-content">
   <section class="hero">
     <div class="hero-body">
@@ -233,6 +187,15 @@
         <div class="columns is-centered">
           <div class="column has-text-centered">
             <h1 class="title is-1 publication-title">PhysInOne: Visual Physics Learning and Reasoning in One Suite</h1>
+            
+            <!-- Institutional Logos (header) -->
+            <div class="header-logos-container">
+              <img src="static/images/logo/vlar2.png" alt="vLAR Group" class="header-logo">
+              <img src="static/images/logo/polyu.png" alt="The Hong Kong Polytechnic University" class="header-logo">
+              <img src="static/images/logo/Syai.png" alt="Syai Singapore" class="header-logo">
+              <img src="static/images/logo/meta.png" alt="Meta" class="header-logo">
+            </div>
+            
             <div class="is-size-5 publication-authors">
               <span class="author-block">Siyuan Zhou<sup>1</sup><sup>&dagger;</sup>,</span>
               <span class="author-block">Hejun Wang<sup>1</sup><sup>&dagger;</sup>,</span>
@@ -256,7 +219,7 @@
             </div>
 
                   <div class="is-size-5 publication-authors">
-                    <span class="author-block">1 vLARGroup, 2 The Hong Kong Polytechnic University, 3 Syai Singapore, 4 Meta</span>
+                    <span class="author-block"><sup>1</sup>vLAR Group, <sup>2</sup>The Hong Kong Polytechnic University, <sup>3</sup>Syai Singapore, <sup>4</sup>Meta</span>
                     <span class="eql-cntrb"><small><br><sup>&dagger;</sup> equal contribution and co-first authorship</small></span>
                     <span class="eql-cntrb"><small><br><sup>*</sup> corresponding authors: Peng Huang, Shijie Liu, Zhengli Hao, Hao Li, Yitian Li, Wenqi Zhou, Zhihan Zhao, Zongqi He, Hongtao Wen, Shouwang Huang, Peng Yun, Bowen Cheng, Pok Kazaf Fu, Wai Kit Lai, Jiahao Chen, Kaiyuan Wang, Zhixuan Sun, Ziqi Li, Haochen Hu, Di Zhang, Chun Ho Yuen</small></span>
                     <span class="eql-cntrb"><small><br>{siyuan.zhou, hejun.wang, hu123.cheng, jinxi.li}@connect.polyu.hk, bo.yang@polyu.edu.hk</small></span>
@@ -297,6 +260,17 @@
                     <span>Code</span>
                   </a>
                 </span>
+
+                <!-- Dataset on Hugging Face -->
+                <span class="link-block">
+                  <a href="https://huggingface.co/datasets/vLAR/PhysInOne" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fas fa-database"></i>
+                  </span>
+                  <span>Data</span>
+                </a>
+              </span>
 
                 <!-- TODO: Update with your arXiv paper ID -->
                 <span class="link-block">
@@ -357,16 +331,13 @@
     <div class="container">
       <h2 class="title is-3 has-text-centered">Dataset Showcase</h2>
       
-      <!-- Tab Buttons -->
-      <div class="video-showcase-tabs">
-        <button class="tab-btn active" data-tab="A" onclick="switchShowcaseTab('A')">A</button>
-        <button class="tab-btn" data-tab="B" onclick="switchShowcaseTab('B')">B</button>
-        <button class="tab-btn" data-tab="C" onclick="switchShowcaseTab('C')">C</button>
-        <button class="tab-btn" data-tab="D" onclick="switchShowcaseTab('D')">D</button>
+      <!-- Tab Buttons (dynamically generated from manifest) -->
+      <div class="video-showcase-tabs" id="showcase-tabs">
+        <!-- Tabs will be populated by JavaScript -->
       </div>
       
-      <!-- Video Showcase Container -->
-      <div class="video-showcase-container">
+      <!-- Video Showcase Container (Single Video - for existing categories) -->
+      <div class="video-showcase-container" id="single-video-container">
         <!-- Left Arrow -->
         <button class="showcase-arrow showcase-arrow-left" type="button" onclick="prevShowcaseVideo()">&#10094;</button>
         
@@ -379,15 +350,61 @@
         <button class="showcase-arrow showcase-arrow-right" type="button" onclick="nextShowcaseVideo()">&#10095;</button>
       </div>
       
-      <!-- Video Indicators -->
-      <div class="video-indicators">
-        <span class="indicator active" onclick="goToShowcaseVideo(0)"></span>
-        <span class="indicator" onclick="goToShowcaseVideo(1)"></span>
-        <span class="indicator" onclick="goToShowcaseVideo(2)"></span>
+      <!-- Multi-Video Showcase Container (RGB + Depth + Seg - for Debug category) -->
+      <div class="multi-video-showcase-container" id="multi-video-container" style="display: none;">
+        <div class="multi-video-row">
+          <!-- Left Arrow -->
+          <button class="showcase-arrow showcase-arrow-left" type="button" onclick="prevShowcaseVideo()">&#10094;</button>
+          
+          <!-- Video Grid -->
+          <div class="multi-video-grid">
+            <div class="video-panel">
+              <div class="video-panel-label rgb">RGB</div>
+              <video id="showcase-video-rgb" controls preload="metadata"></video>
+            </div>
+            <div class="video-panel">
+              <div class="video-panel-label depth">Depth</div>
+              <video id="showcase-video-depth" controls preload="metadata"></video>
+            </div>
+            <div class="video-panel">
+              <div class="video-panel-label seg">Segmentation</div>
+              <video id="showcase-video-seg" controls preload="metadata"></video>
+            </div>
+          </div>
+          
+          <!-- Right Arrow -->
+          <button class="showcase-arrow showcase-arrow-right" type="button" onclick="nextShowcaseVideo()">&#10095;</button>
+        </div>
+        
+        <!-- Sync Playback Controls -->
+        <div class="sync-controls">
+          <button class="sync-btn" onclick="syncPlayAll()">
+            <i class="fas fa-play"></i> Play All
+          </button>
+          <button class="sync-btn" onclick="syncPauseAll()">
+            <i class="fas fa-pause"></i> Pause All
+          </button>
+          <button class="sync-btn" onclick="syncRestartAll()">
+            <i class="fas fa-redo"></i> Restart
+          </button>
+        </div>
+        
+        <!-- Camera Selector (dynamically generated from manifest) -->
+        <div class="camera-selector">
+          <label for="camera-select">View:</label>
+          <select id="camera-select" onchange="switchCamera(this.value)">
+            <!-- Options will be populated by JavaScript -->
+          </select>
+        </div>
+      </div>
+      
+      <!-- Video Indicators (dynamically generated) -->
+      <div class="video-indicators" id="showcase-indicators">
+        <!-- Indicators will be populated by JavaScript -->
       </div>
       
       <h2 class="subtitle has-text-centered showcase-description">
-        Click tab A/B/C/D to switch category. Use arrows to switch scenes.
+        Click each category tab to switch scenes. Use arrows to navigate.
       </h2>
     </div>
   </div>
@@ -395,94 +412,272 @@
 <!-- End Video Showcase Section -->
 
 <script>
-// Showcase videos - hardcoded paths (use raw paths, browser handles encoding)
-const showcaseVideos = {
-  A: [
-    "static/videos/showcase/A/FrictionStop_SpringStretch__bg002__uUyUqc_trajectory__CineCamera_2 - 副本.mp4",
-    "static/videos/showcase/A/MovingHitsStationary_ObliqueProjectile_BalloonFloat__bg151__N9Aalz_trajectory__CineCamera_8.mp4",
-    "static/videos/showcase/A/WindPushSameDir_DoublePendulum__bg001__v0uX4v_trajectory__CineCamera_10.mp4"
-  ],
-  B: [
-    "static/videos/showcase/B/FrictionStop_SpringStretch__bg002__uUyUqc_trajectory__CineCamera_2.mp4",
-    "static/videos/showcase/B/MovingHitsStationary_ObliqueProjectile_BalloonFloat__bg151__N9Aalz_trajectory__CineCamera_8.mp4",
-    "static/videos/showcase/B/WindPushSameDir_DoublePendulum__bg001__v0uX4v_trajectory__CineCamera_10.mp4"
-  ],
-  C: [
-    "static/videos/showcase/C/FrictionStop_SpringStretch__bg002__uUyUqc_trajectory__CineCamera_2.mp4",
-    "static/videos/showcase/C/MovingHitsMoving_AccelPanelSpin__bg002__5LsD3T_trajectory__CineCamera_2.mp4",
-    "static/videos/showcase/C/WindPushSameDir_DoublePendulum__bg001__v0uX4v_trajectory__CineCamera_10.mp4"
-  ],
-  D: [
-    "static/videos/showcase/D/FrictionStop_SpringStretch__bg002__uUyUqc_trajectory__CineCamera_2.mp4",
-    "static/videos/showcase/D/MovingHitsStationary_ObliqueProjectile_BalloonFloat__bg151__N9Aalz_trajectory__CineCamera_8.mp4",
-    "static/videos/showcase/D/WindPushSameDir_DoublePendulum__bg001__v0uX4v_trajectory__CineCamera_10.mp4"
-  ]
-};
-
-let currentShowcaseTab = 'A';
+// Showcase configuration - loaded from manifest.json
+let showcaseManifest = null;
+let currentShowcaseTab = null;
 let currentShowcaseIndex = 0;
+let currentCamera = 'camera0';
+
+// Load manifest and initialize
+function initShowcase() {
+  // Use manifest loaded via script tag (avoids CORS issues with file://)
+  if (!window.SHOWCASE_MANIFEST) {
+    console.error('Showcase manifest not loaded. Make sure manifest.js is included.');
+    return;
+  }
+  
+  showcaseManifest = window.SHOWCASE_MANIFEST;
+  
+  // Generate tab buttons
+  generateTabs();
+  
+  // Set initial tab (first non-Debug category, or first available)
+  const categories = Object.keys(showcaseManifest.categories);
+  currentShowcaseTab = categories.find(c => c !== 'Debug') || categories[0];
+  currentShowcaseIndex = 0;
+  
+  // Generate camera selector after tab/scene is set
+  generateCameraSelector();
+  
+  // Update tab active state and load video
+  updateTabActiveState();
+  loadShowcaseVideo();
+  
+  console.log('Showcase initialized:', showcaseManifest);
+}
+
+// Generate tab buttons from manifest
+function generateTabs() {
+  const container = document.getElementById('showcase-tabs');
+  if (!container || !showcaseManifest) return;
+  
+  container.innerHTML = '';
+  
+  // Define display order (Debug first, then alphabetical)
+  const categories = Object.keys(showcaseManifest.categories);
+  const orderedCategories = ['Debug', 'Mechanics', 'Fluid Dynamics', 'Magnetism', 'Optics']
+    .filter(c => categories.includes(c));
+  // Add any categories not in the predefined order
+  categories.forEach(c => {
+    if (!orderedCategories.includes(c)) orderedCategories.push(c);
+  });
+  
+  orderedCategories.forEach(category => {
+    const btn = document.createElement('button');
+    btn.className = 'tab-btn';
+    btn.dataset.tab = category;
+    btn.onclick = () => switchShowcaseTab(category);
+    
+    // Add emoji for Debug
+    btn.textContent = category === 'Debug' ? '🔧 Debug' : category;
+    
+    container.appendChild(btn);
+  });
+}
+
+// Generate camera selector options from current scene
+function generateCameraSelector() {
+  const select = document.getElementById('camera-select');
+  if (!select || !showcaseManifest) return;
+  
+  const category = showcaseManifest.categories[currentShowcaseTab];
+  if (!category || category.mode !== 'multi') {
+    select.innerHTML = '';
+    return;
+  }
+  
+  const scene = category.scenes[currentShowcaseIndex];
+  if (!scene || !scene.cameras || scene.cameras.length === 0) {
+    select.innerHTML = '';
+    return;
+  }
+  
+  select.innerHTML = '';
+  
+  // Display sequential numbers (0, 1, 2...) but value is actual camera name
+  scene.cameras.forEach((camera, index) => {
+    const option = document.createElement('option');
+    option.value = camera;
+    // Format display name as sequential number
+    if (camera === 'cameraMoving') {
+      option.textContent = 'Moving Camera';
+    } else {
+      option.textContent = 'Camera ' + index;
+    }
+    select.appendChild(option);
+  });
+  
+  // Set current camera to first available if current is not in list
+  if (!scene.cameras.includes(currentCamera)) {
+    currentCamera = scene.cameras[0];
+    select.value = currentCamera;
+  }
+}
+
+// Generate video indicators
+function generateIndicators(count) {
+  const container = document.getElementById('showcase-indicators');
+  if (!container) return;
+  
+  container.innerHTML = '';
+  
+  for (let i = 0; i < count; i++) {
+    const indicator = document.createElement('span');
+    indicator.className = 'indicator' + (i === currentShowcaseIndex ? ' active' : '');
+    indicator.onclick = () => goToShowcaseVideo(i);
+    container.appendChild(indicator);
+  }
+}
+
+// Check if current tab is multi-video mode
+function isMultiVideoTab(tab) {
+  if (!showcaseManifest) return false;
+  const category = showcaseManifest.categories[tab];
+  return category && category.mode === 'multi';
+}
+
+// Get video/scene count for current tab
+function getVideoCount() {
+  if (!showcaseManifest) return 0;
+  const category = showcaseManifest.categories[currentShowcaseTab];
+  if (!category) return 0;
+  
+  if (category.mode === 'multi') {
+    return category.scenes.length;
+  }
+  return category.videos?.length || 0;
+}
+
+// Build video path for multi-video mode
+function buildVideoPath(scene, camera, modality) {
+  const suffix = modality === 'rgb' ? '' : '_' + modality;
+  return `${scene.basePath}/${scene.sceneName}_${camera}${suffix}_h264.mp4`;
+}
 
 function loadShowcaseVideo() {
-  const video = document.getElementById('showcase-video');
-  const videos = showcaseVideos[currentShowcaseTab];
-  console.log('Loading video:', currentShowcaseTab, currentShowcaseIndex, videos ? videos[currentShowcaseIndex] : 'no videos');
-  if (video && videos && videos[currentShowcaseIndex]) {
-    const src = encodeURI(videos[currentShowcaseIndex]);
-    console.log('Setting src:', src);
+  if (!showcaseManifest) return;
+  
+  const singleContainer = document.getElementById('single-video-container');
+  const multiContainer = document.getElementById('multi-video-container');
+  const category = showcaseManifest.categories[currentShowcaseTab];
+  
+  if (!category) return;
+  
+  // Update indicators
+  generateIndicators(getVideoCount());
+  
+  if (category.mode === 'multi') {
+    // Multi-video mode
+    singleContainer.style.display = 'none';
+    multiContainer.style.display = 'block';
     
-    // Add error handling
-    video.onerror = function(e) {
-      console.error('Video error:', video.error);
-    };
-    video.onloadeddata = function() {
-      console.log('Video loaded successfully, dimensions:', video.videoWidth, 'x', video.videoHeight);
-    };
+    const scene = category.scenes[currentShowcaseIndex];
+    if (scene) {
+      const videoRgb = document.getElementById('showcase-video-rgb');
+      const videoDepth = document.getElementById('showcase-video-depth');
+      const videoSeg = document.getElementById('showcase-video-seg');
+      
+      const rgbPath = buildVideoPath(scene, currentCamera, 'rgb');
+      const depthPath = buildVideoPath(scene, currentCamera, 'depth');
+      const segPath = buildVideoPath(scene, currentCamera, 'seg');
+      
+      if (videoRgb) { videoRgb.src = encodeURI(rgbPath); videoRgb.load(); }
+      if (videoDepth) { videoDepth.src = encodeURI(depthPath); videoDepth.load(); }
+      if (videoSeg) { videoSeg.src = encodeURI(segPath); videoSeg.load(); }
+      
+      console.log('Loading multi-video:', currentShowcaseTab, currentShowcaseIndex, currentCamera);
+    }
+  } else {
+    // Single video mode
+    singleContainer.style.display = 'flex';
+    multiContainer.style.display = 'none';
     
-    video.src = src;
-    video.load();
+    const video = document.getElementById('showcase-video');
+    const videoPath = category.videos[currentShowcaseIndex];
+    
+    if (video && videoPath) {
+      video.onerror = (e) => console.error('Video error:', video.error);
+      video.onloadeddata = () => console.log('Video loaded:', video.videoWidth, 'x', video.videoHeight);
+      video.src = encodeURI(videoPath);
+      video.load();
+      console.log('Loading video:', currentShowcaseTab, currentShowcaseIndex, videoPath);
+    }
   }
-  updateShowcaseIndicators();
+}
+
+function updateTabActiveState() {
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === currentShowcaseTab);
+  });
+}
+
+function switchCamera(camera) {
+  currentCamera = camera;
+  loadShowcaseVideo();
 }
 
 function switchShowcaseTab(tab) {
   currentShowcaseTab = tab;
   currentShowcaseIndex = 0;
   
-  // Update tab buttons
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.tab === tab);
-  });
+  // Camera will be updated by generateCameraSelector based on scene availability
+  updateTabActiveState();
+  
+  // Update camera selector for the first scene
+  generateCameraSelector();
   
   loadShowcaseVideo();
 }
 
 function prevShowcaseVideo() {
-  const videos = showcaseVideos[currentShowcaseTab];
-  currentShowcaseIndex = (currentShowcaseIndex - 1 + videos.length) % videos.length;
+  const count = getVideoCount();
+  if (count === 0) return;
+  currentShowcaseIndex = (currentShowcaseIndex - 1 + count) % count;
+  generateCameraSelector();
   loadShowcaseVideo();
 }
 
 function nextShowcaseVideo() {
-  const videos = showcaseVideos[currentShowcaseTab];
-  currentShowcaseIndex = (currentShowcaseIndex + 1) % videos.length;
+  const count = getVideoCount();
+  if (count === 0) return;
+  currentShowcaseIndex = (currentShowcaseIndex + 1) % count;
+  generateCameraSelector();
   loadShowcaseVideo();
 }
 
 function goToShowcaseVideo(index) {
   currentShowcaseIndex = index;
+  generateCameraSelector();
   loadShowcaseVideo();
 }
 
-function updateShowcaseIndicators() {
-  document.querySelectorAll('.video-indicators .indicator').forEach((ind, i) => {
-    ind.classList.toggle('active', i === currentShowcaseIndex);
+// Sync playback functions for multi-video mode
+function syncPlayAll() {
+  ['showcase-video-rgb', 'showcase-video-depth', 'showcase-video-seg'].forEach(id => {
+    const video = document.getElementById(id);
+    if (video) video.play().catch(e => console.log('Play prevented:', e));
+  });
+}
+
+function syncPauseAll() {
+  ['showcase-video-rgb', 'showcase-video-depth', 'showcase-video-seg'].forEach(id => {
+    const video = document.getElementById(id);
+    if (video) video.pause();
+  });
+}
+
+function syncRestartAll() {
+  ['showcase-video-rgb', 'showcase-video-depth', 'showcase-video-seg'].forEach(id => {
+    const video = document.getElementById(id);
+    if (video) {
+      video.currentTime = 0;
+      video.play().catch(e => console.log('Play prevented:', e));
+    }
   });
 }
 
 // Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
-  loadShowcaseVideo();
-});
+document.addEventListener('DOMContentLoaded', initShowcase);
 </script>
 
 <!-- Contributor Wall -->
@@ -493,7 +688,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </section>
 <!-- End Contributor Wall -->
-
 
   <footer class="footer">
   <div class="container">

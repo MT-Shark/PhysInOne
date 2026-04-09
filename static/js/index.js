@@ -1,30 +1,60 @@
 window.HELP_IMPROVE_VIDEOJS = false;
 
 // Contributors functions
+function sortPhotosByOrder(photos) {
+    const order = window.CONTRIBUTORS_ORDER || [];
+    if (order.length === 0) return photos;
+    
+    // Create a map of name -> photo path
+    const photoMap = {};
+    photos.forEach(path => {
+        const name = extractContributorName(path);
+        photoMap[name] = path;
+    });
+    
+    // Build sorted array based on order config
+    const sorted = [];
+    order.forEach(name => {
+        if (photoMap[name]) {
+            sorted.push(photoMap[name]);
+            delete photoMap[name];
+        }
+    });
+    
+    // Append any remaining photos not in order config
+    Object.values(photoMap).forEach(path => sorted.push(path));
+    
+    return sorted;
+}
+
 async function initContributors() {
     const grid = document.getElementById('contributors-grid');
     if (!grid) {
         return;
     }
 
+    let photos = [];
+    
     if (window.CONTRIBUTORS_MANIFEST && Array.isArray(window.CONTRIBUTORS_MANIFEST.photos)) {
-        renderContributors(window.CONTRIBUTORS_MANIFEST.photos, grid);
-        return;
-    }
-
-    try {
-        const response = await fetch('static/images/Contributers/manifest.json', { cache: 'no-store' });
-        if (!response.ok) {
-            throw new Error('contributors manifest not found');
+        photos = window.CONTRIBUTORS_MANIFEST.photos;
+    } else {
+        try {
+            const response = await fetch('static/images/Contributers/manifest.json', { cache: 'no-store' });
+            if (!response.ok) {
+                throw new Error('contributors manifest not found');
+            }
+            const manifest = await response.json();
+            photos = Array.isArray(manifest.photos) ? manifest.photos : [];
+        } catch (error) {
+            console.warn('Failed to load contributors manifest:', error);
+            grid.innerHTML = '<p class="has-text-centered">No contributors found.</p>';
+            return;
         }
-
-        const manifest = await response.json();
-        const photos = Array.isArray(manifest.photos) ? manifest.photos : [];
-        renderContributors(photos, grid);
-    } catch (error) {
-        console.warn('Failed to load contributors manifest:', error);
-        grid.innerHTML = '<p class="has-text-centered">No contributors found.</p>';
     }
+    
+    // Sort photos by configured order
+    const sortedPhotos = sortPhotosByOrder(photos);
+    renderContributors(sortedPhotos, grid);
 }
 
 function renderContributors(photos, grid) {
@@ -38,7 +68,8 @@ function renderContributors(photos, grid) {
 
         const image = document.createElement('img');
         image.className = 'contributor-avatar';
-        image.src = encodeURI(photoPath);
+        // manifest paths are already URL-encoded, don't double-encode
+        image.src = photoPath;
         image.alt = 'Contributor photo';
         image.loading = 'lazy';
 
@@ -57,44 +88,13 @@ function extractContributorName(path) {
     const parts = path.split('/');
     const filename = parts[parts.length - 1] || '';
     const clean = filename.replace(/\.[^.]+$/, '');
-    return clean;
-}
-
-// More Works Dropdown Functionality
-function toggleMoreWorks() {
-    const dropdown = document.getElementById('moreWorksDropdown');
-    const button = document.querySelector('.more-works-btn');
-    
-    if (dropdown.classList.contains('show')) {
-        dropdown.classList.remove('show');
-        button.classList.remove('active');
-    } else {
-        dropdown.classList.add('show');
-        button.classList.add('active');
+    // Decode URL-encoded names (e.g., %20 -> space)
+    try {
+        return decodeURIComponent(clean);
+    } catch (e) {
+        return clean;
     }
 }
-
-// Close dropdown when clicking outside
-document.addEventListener('click', function(event) {
-    const container = document.querySelector('.more-works-container');
-    const dropdown = document.getElementById('moreWorksDropdown');
-    const button = document.querySelector('.more-works-btn');
-    
-    if (container && !container.contains(event.target)) {
-        if (dropdown) dropdown.classList.remove('show');
-        if (button) button.classList.remove('active');
-    }
-});
-
-// Close dropdown on escape key
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        const dropdown = document.getElementById('moreWorksDropdown');
-        const button = document.querySelector('.more-works-btn');
-        if (dropdown) dropdown.classList.remove('show');
-        if (button) button.classList.remove('active');
-    }
-});
 
 // Scroll to top functionality
 function scrollToTop() {
@@ -142,7 +142,7 @@ function setupVideoCarouselAutoplay() {
     });
 }
 
-$(document).ready(function() {
+document.addEventListener('DOMContentLoaded', function() {
     var options = {
         slidesToScroll: 1,
         slidesToShow: 1,
@@ -152,8 +152,13 @@ $(document).ready(function() {
         autoplaySpeed: 5000,
     };
 
-    var carousels = bulmaCarousel.attach('.carousel', options);
-    bulmaSlider.attach();
+    if (window.bulmaCarousel) {
+        bulmaCarousel.attach('.carousel', options);
+    }
+
+    if (window.bulmaSlider) {
+        bulmaSlider.attach();
+    }
     
     setupVideoCarouselAutoplay();
     initContributors();

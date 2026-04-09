@@ -9,7 +9,7 @@ function Get-EncodedPath($baseRelative, $fileName) {
 
 # Showcase JSON + JS
 $showcaseRoot = Join-Path $projectRoot 'static\videos\showcase'
-$tabs = @('A', 'B', 'C', 'D')
+$tabs = @('Mechanics', 'Fluid Dynamics', 'Magnetism', 'Optics')
 $videoExt = @('.mp4', '.webm', '.ogg', '.mov', '.m4v')
 $showcase = [ordered]@{}
 
