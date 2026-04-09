@@ -68,8 +68,8 @@
   <title>PhysInOne: Visual Physics Learning and Reasoning in One Suite</title>
   
   <!-- Favicon and App Icons -->
-  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
-  <link rel="apple-touch-icon" href="static/images/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="static/images/teaser.ico">
+  <link rel="apple-touch-icon" href="static/images/teaser.ico">
   
   <!-- Critical CSS - Load synchronously -->
   <link rel="stylesheet" href="static/css/bulma.min.css">
@@ -190,10 +190,18 @@
             
             <!-- Institutional Logos (header) -->
             <div class="header-logos-container">
-              <img src="static/images/logo/vlar2.png" alt="vLAR Group" class="header-logo">
-              <img src="static/images/logo/polyu.png" alt="The Hong Kong Polytechnic University" class="header-logo">
-              <img src="static/images/logo/Syai.png" alt="Syai Singapore" class="header-logo">
-              <img src="static/images/logo/meta.png" alt="Meta" class="header-logo">
+              <a href="https://vlar-group.github.io/paper.html" target="_blank" rel="noopener">
+                <img src="static/images/logo/vlar2.png" alt="vLAR Group" class="header-logo">
+              </a>
+              <a href="https://www.polyu.edu.hk/" target="_blank" rel="noopener">
+                <img src="static/images/logo/polyu.png" alt="The Hong Kong Polytechnic University" class="header-logo">
+              </a>
+              <a href="https://www.polyu.edu.hk/" target="_blank" rel="noopener">
+                <img src="static/images/logo/Syai.png" alt="Syai Singapore" class="header-logo">
+              </a>
+              <a href="https://ai.meta.com/" target="_blank" rel="noopener">
+                <img src="static/images/logo/meta.png" alt="Meta" class="header-logo">
+              </a>
             </div>
             
             <div class="is-size-5 publication-authors">
@@ -221,7 +229,7 @@
                   <div class="is-size-5 publication-authors">
                     <span class="author-block"><sup>1</sup>vLAR Group, <sup>2</sup>The Hong Kong Polytechnic University, <sup>3</sup>Syai Singapore, <sup>4</sup>Meta</span>
                     <span class="eql-cntrb"><small><br><sup>&dagger;</sup> equal contribution and co-first authorship</small></span>
-                    <span class="eql-cntrb"><small><br><sup>*</sup> corresponding authors: Peng Huang, Shijie Liu, Zhengli Hao, Hao Li, Yitian Li, Wenqi Zhou, Zhihan Zhao, Zongqi He, Hongtao Wen, Shouwang Huang, Peng Yun, Bowen Cheng, Pok Kazaf Fu, Wai Kit Lai, Jiahao Chen, Kaiyuan Wang, Zhixuan Sun, Ziqi Li, Haochen Hu, Di Zhang, Chun Ho Yuen</small></span>
+                    <span class="eql-cntrb"><small><br><sup>*</sup>{Peng Huang, Shijie Liu, Zhengli Hao, Hao Li, Yitian Li, Wenqi Zhou, Zhihan Zhao, Zongqi He, Hongtao Wen, Shouwang Huang, Peng Yun, Bowen Cheng, Pok Kazaf Fu, Wai Kit Lai, Jiahao Chen, Kaiyuan Wang, Zhixuan Sun, Ziqi Li, Haochen Hu, Di Zhang, Chun Ho Yuen}</small></span>
                     <span class="eql-cntrb"><small><br>{siyuan.zhou, hejun.wang, hu123.cheng, jinxi.li}@connect.polyu.hk, bo.yang@polyu.edu.hk</small></span>
                     <span class="eql-cntrb"><small><br><a href="https://vlar-group.github.io/PhysInOne.html" target="_blank" rel="noopener">https://vlar-group.github.io/PhysInOne.html</a></small></span>
                   </div>
@@ -295,14 +303,31 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
+      <!-- CVPR 2026 Logo -->
+      <div class="has-text-centered" style="margin-bottom: 1.5rem;">
+        <img src="static/images/logo/cvpr.png" alt="CVPR 2026" style="height: 120px;">
+      </div>
       <!-- Opening showcase video -->
-      <video poster="" id="tree" autoplay controls muted loop height="100%" preload="metadata">
+      <video poster="static/images/preface.jpg" id="demo-video" controls muted loop height="100%" preload="metadata">
         <source src="static/videos/demo.mp4" type="video/mp4">
       </video>
     </div>
   </div>
 </section>
 <!-- End teaser video -->
+
+<!-- Main Camera Image -->
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column">
+        <figure class="image">
+          <img src="static/images/main_cam.jpg" alt="PhysInOne Main Camera View" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- Paper abstract -->
 <section class="section hero is-light">
@@ -312,7 +337,7 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            We present PhysInOne, a large-scale synthetic dataset addressing the critical scarcity of physically-grounded training data for AI systems. Unlike existing datasets limited to merely hundreds or thousands of examples, PhysInOne provides 2 million videos across 153,810 dynamic 3D scenes, covering 71 basic physical phenomena in mechanics, optics, fluid dynamics, and magnetism. Distinct from previous works, our scenes feature multiobject interactions against complex backgrounds, with comprehensive ground-truth annotations including 3D geometry, semantics, dynamic motion, physical properties, and text descriptions. We demonstrate PhysInOne's efficacy across four emerging applications: physics-aware video generation, long-/short-term future frame prediction, physical property estimation, and motion transfer. Experiments show that fine-tuning foundation models on PhysInOne significantly enhances physical plausibility, while also exposing critical gaps in modeling complex physical dynamics and estimating intrinsic properties. As the largest dataset of its kind, orders of magnitude beyond prior works, PhysInOne establishes a new benchmark for advancing physics-grounded world models in generation, simulation, and embodied AI.
+            We present PhysInOne, a large-scale synthetic dataset addressing the critical scarcity of physically-grounded training data for AI systems. Unlike existing datasets limited to merely hundreds or thousands of examples, PhysInOne provides <strong class="highlight-number">2 million</strong> videos across <strong class="highlight-number">153,810</strong> dynamic 3D scenes, covering <strong class="highlight-number">71</strong> basic physical phenomena in <strong class="highlight-text">mechanics</strong>, <strong class="highlight-text">optics</strong>, <strong class="highlight-text">fluid dynamics</strong>, and <strong class="highlight-text">magnetism</strong>. Distinct from previous works, our scenes feature multiobject interactions against complex backgrounds, with comprehensive ground-truth annotations including 3D geometry, semantics, dynamic motion, physical properties, and text descriptions. We demonstrate PhysInOne's efficacy across <strong class="highlight-number">four</strong> emerging applications: physics-aware video generation, long-/short-term future frame prediction, physical property estimation, and motion transfer. Experiments show that fine-tuning foundation models on PhysInOne significantly enhances physical plausibility, while also exposing critical gaps in modeling complex physical dynamics and estimating intrinsic properties. As the largest dataset of its kind, orders of magnitude beyond prior works, PhysInOne establishes a new benchmark for advancing physics-grounded world models in generation, simulation, and embodied AI.
           </p>
         </div>
       </div>
@@ -399,10 +424,6 @@
       <div class="video-indicators" id="showcase-indicators">
         <!-- Indicators will be populated by JavaScript -->
       </div>
-      
-      <h2 class="subtitle has-text-centered showcase-description">
-        Click each category tab to switch scenes. Use arrows to navigate.
-      </h2>
     </div>
   </div>
 </section>
@@ -674,7 +695,19 @@ function syncRestartAll() {
 }
 
 // Initialize on page load
-document.addEventListener('DOMContentLoaded', initShowcase);
+document.addEventListener('DOMContentLoaded', function() {
+  initShowcase();
+  
+  // Delayed autoplay for demo video (3 seconds after page load)
+  const demoVideo = document.getElementById('demo-video');
+  if (demoVideo) {
+    setTimeout(function() {
+      demoVideo.play().catch(function(e) {
+        console.log('Autoplay prevented:', e);
+      });
+    }, 3000);
+  }
+});
 </script>
 
 <!-- Contributor Wall -->
