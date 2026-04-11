@@ -10,6 +10,7 @@ This script:
 
 Usage:
     python scripts/process_showcase_videos.py
+    python scripts/process_showcase_videos.py --skip-encode
 
 Requirements:
     - ffmpeg must be installed and in PATH
@@ -17,6 +18,7 @@ Requirements:
 """
 
 import json
+import argparse
 import os
 import re
 import shutil
@@ -53,6 +55,19 @@ def check_ffmpeg() -> bool:
         return True
     except (subprocess.CalledProcessError, FileNotFoundError):
         return False
+
+
+def parse_args() -> argparse.Namespace:
+    """Parse command line arguments."""
+    parser = argparse.ArgumentParser(
+        description="Process showcase videos by encoding to H.264 or copying directly."
+    )
+    parser.add_argument(
+        "--skip-encode",
+        action="store_true",
+        help="Skip ffmpeg encoding and copy source videos directly to the output folder while keeping _h264 filenames for compatibility."
+    )
+    return parser.parse_args()
 
 
 def get_scene_name_from_folder(folder_path: Path) -> str:
@@ -123,20 +138,58 @@ def convert_video_h264(input_path: Path, output_path: Path) -> bool:
         return False
 
 
-def convert_video_worker(args: Tuple[Path, Path]) -> Tuple[str, bool, str]:
+def copy_video_file(input_path: Path, output_path: Path) -> bool:
+    """Copy a video file without re-encoding."""
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    try:
+        shutil.copy2(input_path, output_path)
+        return True
+    except Exception:
+        return False
+
+
+def copy_scene_caption(src_folder: Path, output_folder: Path, same_folder: bool) -> bool:
+    """Copy caption.txt from source folder to output folder when available."""
+    caption_src = src_folder / "caption.txt"
+    caption_dst = output_folder / "caption.txt"
+
+    if not caption_src.exists():
+        print("    Caption: caption.txt not found")
+        return False
+
+    # In-place processing keeps caption in the same location.
+    if same_folder:
+        print("    Caption: caption.txt kept in-place")
+        return True
+
+    try:
+        shutil.copy2(caption_src, caption_dst)
+        print("    Caption: caption.txt copied")
+        return True
+    except Exception as exc:
+        print(f"    Caption copy failed: {exc}")
+        return False
+
+
+def process_video_worker(args: Tuple[Path, Path, bool]) -> Tuple[str, bool, str]:
     """
-    Worker function for parallel video conversion.
+    Worker function for parallel video processing.
     
     Args:
-        args: Tuple of (input_path, output_path)
+        args: Tuple of (input_path, output_path, skip_encode)
     
     Returns:
         Tuple of (video_name, success, status_message)
     """
-    input_path, output_path = args
+    input_path, output_path, skip_encode = args
     video_name = input_path.name
-    
-    success = convert_video_h264(input_path, output_path)
+
+    if skip_encode:
+        success = copy_video_file(input_path, output_path)
+    else:
+        success = convert_video_h264(input_path, output_path)
+
     status = "✓" if success else "✗"
     
     return (video_name, success, status)
@@ -146,7 +199,8 @@ def process_scene(
     category: str,
     src_folder: Path,
     mode: str,
-    scene_name: Optional[str] = None
+    scene_name: Optional[str] = None,
+    skip_encode: bool = False
 ) -> bool:
     """
     Process a single scene folder.
@@ -172,7 +226,7 @@ def process_scene(
     print(f"    Source: {src_folder}")
     print(f"    Output: {output_folder}")
     if same_folder:
-        print(f"    (in-place conversion)")
+        print(f"    (in-place processing)")
     
     # Find source videos
     videos = find_source_videos(src_folder, mode)
@@ -186,9 +240,12 @@ def process_scene(
         if output_folder.exists():
             shutil.rmtree(output_folder)
         output_folder.mkdir(parents=True, exist_ok=True)
+
+    # Copy scene caption (if provided by source folder).
+    copy_scene_caption(src_folder, output_folder, same_folder)
     
     # Collect conversion tasks
-    tasks = []  # List of (input_path, output_path)
+    tasks = []  # List of (input_path, output_path, skip_encode)
     skipped = 0
     
     for camera_key, video_list in videos.items():
@@ -208,7 +265,7 @@ def process_scene(
                 skipped += 1
                 continue
             
-            tasks.append((video_path, output_path))
+            tasks.append((video_path, output_path, skip_encode))
     
     if not tasks:
         print(f"    Done: 0 converted, {skipped} skipped, 0 failed")
@@ -219,10 +276,12 @@ def process_scene(
     failed = 0
     total_tasks = len(tasks)
     
-    print(f"    Converting {total_tasks} videos using {MAX_WORKERS} workers...")
+    action = "Copying" if skip_encode else "Converting"
+    done_label = "copied" if skip_encode else "converted"
+    print(f"    {action} {total_tasks} videos using {MAX_WORKERS} workers...")
     
     with ProcessPoolExecutor(max_workers=MAX_WORKERS) as executor:
-        futures = {executor.submit(convert_video_worker, task): task for task in tasks}
+        futures = {executor.submit(process_video_worker, task): task for task in tasks}
         
         for future in as_completed(futures):
             video_name, success, status = future.result()
@@ -233,11 +292,11 @@ def process_scene(
             else:
                 failed += 1
     
-    print(f"    Done: {converted} converted, {skipped} skipped, {failed} failed")
+    print(f"    Done: {converted} {done_label}, {skipped} skipped, {failed} failed")
     return failed == 0
 
 
-def process_category(category: str, config: Dict[str, Any]) -> int:
+def process_category(category: str, config: Dict[str, Any], skip_encode: bool = False) -> int:
     """
     Process all scenes in a category.
     
@@ -290,7 +349,7 @@ def process_category(category: str, config: Dict[str, Any]) -> int:
         
         src_path = Path(src)
         
-        if process_scene(category, src_path, mode, name):
+        if process_scene(category, src_path, mode, name, skip_encode=skip_encode):
             success_count += 1
     
     return success_count
@@ -330,14 +389,19 @@ def run_manifest_generator():
 
 def main():
     """Main entry point."""
+    args = parse_args()
+
     print("=" * 50)
     print("Showcase Video Processor")
     print("=" * 50)
     
     # Check ffmpeg
-    if not check_ffmpeg():
+    if not args.skip_encode and not check_ffmpeg():
         print("Error: ffmpeg not found. Please install ffmpeg and add it to PATH.")
         return 1
+
+    if args.skip_encode:
+        print("Mode: skip encode, copy source videos directly")
     
     # Load config
     config = load_config()
@@ -367,7 +431,7 @@ def main():
             print("  No scenes configured, skipping")
             continue
         
-        success = process_category(category_name, category_config)
+        success = process_category(category_name, category_config, skip_encode=args.skip_encode)
         total_scenes += success
     
     # Update manifest

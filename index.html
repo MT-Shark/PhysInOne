@@ -181,12 +181,21 @@
   </button>
 
   <main id="main-content">
-  <section class="hero">
+<!-- CVPR 2026 Logo Banner -->
+<section class="hero is-small cvpr-banner">
+  <div class="container is-max-desktop">
+    <div class="has-text-centered">
+      <img src="static/images/logo/cvpr.png" alt="CVPR 2026" class="cvpr-logo-top">
+    </div>
+  </div>
+</section>
+
+  <section class="hero publication-hero">
     <div class="hero-body">
       <div class="container is-max-desktop">
         <div class="columns is-centered">
           <div class="column has-text-centered">
-            <h1 class="title is-1 publication-title">PhysInOne: Visual Physics Learning and Reasoning in One Suite</h1>
+            <h1 class="title is-1 publication-title"><span class="gradient-title">PhysInOne</span>: Visual Physics Learning and Reasoning in One Suite</h1>
             
             <!-- Institutional Logos (header) -->
             <div class="header-logos-container">
@@ -303,10 +312,6 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <!-- CVPR 2026 Logo -->
-      <div class="has-text-centered" style="margin-bottom: 1.5rem;">
-        <img src="static/images/logo/cvpr.png" alt="CVPR 2026" style="height: 120px;">
-      </div>
       <!-- Opening showcase video -->
       <video poster="static/images/preface.jpg" id="demo-video" controls muted loop height="100%" preload="metadata">
         <source src="static/videos/demo.mp4" type="video/mp4">
@@ -316,29 +321,65 @@
 </section>
 <!-- End teaser video -->
 
-<!-- Main Camera Image -->
-<section class="section hero">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column">
-        <figure class="image">
-          <img src="static/images/main_cam.jpg" alt="PhysInOne Main Camera View" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-        </figure>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- Paper abstract -->
 <section class="section hero is-light">
   <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
+    <div class="columns is-centered">
       <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified">
-          <p>
-            We present PhysInOne, a large-scale synthetic dataset addressing the critical scarcity of physically-grounded training data for AI systems. Unlike existing datasets limited to merely hundreds or thousands of examples, PhysInOne provides <strong class="highlight-number">2 million</strong> videos across <strong class="highlight-number">153,810</strong> dynamic 3D scenes, covering <strong class="highlight-number">71</strong> basic physical phenomena in <strong class="highlight-text">mechanics</strong>, <strong class="highlight-text">optics</strong>, <strong class="highlight-text">fluid dynamics</strong>, and <strong class="highlight-text">magnetism</strong>. Distinct from previous works, our scenes feature multiobject interactions against complex backgrounds, with comprehensive ground-truth annotations including 3D geometry, semantics, dynamic motion, physical properties, and text descriptions. We demonstrate PhysInOne's efficacy across <strong class="highlight-number">four</strong> emerging applications: physics-aware video generation, long-/short-term future frame prediction, physical property estimation, and motion transfer. Experiments show that fine-tuning foundation models on PhysInOne significantly enhances physical plausibility, while also exposing critical gaps in modeling complex physical dynamics and estimating intrinsic properties. As the largest dataset of its kind, orders of magnitude beyond prior works, PhysInOne establishes a new benchmark for advancing physics-grounded world models in generation, simulation, and embodied AI.
-          </p>
+        <h2 class="title is-3 has-text-centered">Abstract</h2>
+        <div class="content abstract-bullets">
+          <p class="abstract-lead">We present <strong>PhysInOne</strong>, a large-scale synthetic dataset addressing the critical scarcity of physically-grounded training data for AI systems.</p>
+          <ul>
+            <li>
+              <strong class="bullet-title">Scale</strong>
+              <ul>
+                <li><strong class="highlight-number">2 million videos</strong> generated from <strong class="highlight-number">153,810 dynamic 3D scenes</strong></li>
+                <li>Covers <strong class="highlight-number">71 fundamental physical phenomena</strong> in everyday environments</li>
+                <li>Includes <strong class="highlight-number">2,231 common objects</strong> tailored to daily physical interactions</li>
+                <li>Enriched with <strong class="highlight-number">623 materials</strong> across five categories: <em>plastic, metal, wood, stone, and fabric</em></li>
+                <li>Features <strong class="highlight-number">528 diverse 3D backgrounds</strong> to ensure realism and environmental variety</li>
+              </ul>
+            </li>
+            <li>
+              <strong class="bullet-title">Physical Coverage</strong>
+              <ul>
+                <li><strong class="highlight-number">71 basic physical phenomena</strong>, spanning four domains:</li>
+                <li><strong class="highlight-text">Mechanics</strong></li>
+                <li><strong class="highlight-text">Optics</strong></li>
+                <li><strong class="highlight-text">Fluid Dynamics</strong></li>
+                <li><strong class="highlight-text">Magnetism</strong></li>
+              </ul>
+            </li>
+            <li>
+              <strong class="bullet-title">Scene Characteristics</strong>
+              <ul>
+                <li>Each scene involves <strong class="highlight-number">1-3 physical phenomena</strong>, reflecting real-world activities, including single-, double-, and triple-physics activities</li>
+                <li>Supports <strong class="highlight-number">complex multi-object interactions</strong>, with increasing scene complexity:</li>
+                <li>Average number of objects per scene: <strong class="highlight-number">3.9</strong> (single-physics), <strong class="highlight-number">6.3</strong> (double-physics), <strong class="highlight-number">7.8</strong> (triple-physics)</li>
+                <li>Each scene is captured from <strong class="highlight-number">at least 13 viewpoints</strong>: <strong>12 static cameras</strong> and <strong>1 dynamic moving camera</strong></li>
+              </ul>
+            </li>
+            <li>
+              <strong class="bullet-title">Rich Ground-Truth Annotations</strong>
+              <ul>
+                <li>Comprehensive supervision including:</li>
+                <li>3D geometry</li>
+                <li>Semantic labels</li>
+                <li>Object motion and dynamics</li>
+                <li>Physical properties</li>
+                <li>Natural-language scene descriptions</li>
+              </ul>
+            </li>
+            <li>
+              <strong class="bullet-title">Supported Applications</strong>
+              <ul>
+                <li>Physics-aware video generation</li>
+                <li>Short- and long-term future frame prediction</li>
+                <li>Physical property estimation</li>
+                <li>Motion transfer</li>
+              </ul>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -352,77 +393,11 @@
   <div class="hero-body">
     <div class="container">
       <h2 class="title is-3 has-text-centered">Dataset Showcase</h2>
+      <p class="has-text-centered showcase-intro">Explore videos across four physical domains. Each scene is captured from multiple viewpoints with RGB, Depth, and Segmentation modalities.</p>
       
-      <!-- Tab Buttons (dynamically generated from manifest) -->
-      <div class="video-showcase-tabs" id="showcase-tabs">
-        <!-- Tabs will be populated by JavaScript -->
-      </div>
-      
-      <!-- Video Showcase Container (Single Video - for existing categories) -->
-      <div class="video-showcase-container" id="single-video-container">
-        <!-- Left Arrow -->
-        <button class="showcase-arrow showcase-arrow-left" type="button" onclick="prevShowcaseVideo()">&#10094;</button>
-        
-        <!-- Video Display Area -->
-        <div class="video-showcase-display">
-          <video id="showcase-video" class="showcase-video" controls preload="metadata"></video>
-        </div>
-        
-        <!-- Right Arrow -->
-        <button class="showcase-arrow showcase-arrow-right" type="button" onclick="nextShowcaseVideo()">&#10095;</button>
-      </div>
-      
-      <!-- Multi-Video Showcase Container (RGB + Depth + Seg - for Debug category) -->
-      <div class="multi-video-showcase-container" id="multi-video-container" style="display: none;">
-        <div class="multi-video-row">
-          <!-- Left Arrow -->
-          <button class="showcase-arrow showcase-arrow-left" type="button" onclick="prevShowcaseVideo()">&#10094;</button>
-          
-          <!-- Video Grid -->
-          <div class="multi-video-grid">
-            <div class="video-panel">
-              <div class="video-panel-label rgb">RGB</div>
-              <video id="showcase-video-rgb" controls preload="metadata"></video>
-            </div>
-            <div class="video-panel">
-              <div class="video-panel-label depth">Depth</div>
-              <video id="showcase-video-depth" controls preload="metadata"></video>
-            </div>
-            <div class="video-panel">
-              <div class="video-panel-label seg">Segmentation</div>
-              <video id="showcase-video-seg" controls preload="metadata"></video>
-            </div>
-          </div>
-          
-          <!-- Right Arrow -->
-          <button class="showcase-arrow showcase-arrow-right" type="button" onclick="nextShowcaseVideo()">&#10095;</button>
-        </div>
-        
-        <!-- Sync Playback Controls -->
-        <div class="sync-controls">
-          <button class="sync-btn" onclick="syncPlayAll()">
-            <i class="fas fa-play"></i> Play All
-          </button>
-          <button class="sync-btn" onclick="syncPauseAll()">
-            <i class="fas fa-pause"></i> Pause All
-          </button>
-          <button class="sync-btn" onclick="syncRestartAll()">
-            <i class="fas fa-redo"></i> Restart
-          </button>
-        </div>
-        
-        <!-- Camera Selector (dynamically generated from manifest) -->
-        <div class="camera-selector">
-          <label for="camera-select">View:</label>
-          <select id="camera-select" onchange="switchCamera(this.value)">
-            <!-- Options will be populated by JavaScript -->
-          </select>
-        </div>
-      </div>
-      
-      <!-- Video Indicators (dynamically generated) -->
-      <div class="video-indicators" id="showcase-indicators">
-        <!-- Indicators will be populated by JavaScript -->
+      <!-- Category Rows (dynamically generated) -->
+      <div id="showcase-categories-container">
+        <!-- Categories will be populated by JavaScript -->
       </div>
     </div>
   </div>
@@ -430,15 +405,15 @@
 <!-- End Video Showcase Section -->
 
 <script>
-// Showcase configuration - loaded from manifest.json
+// Showcase state - per category
 let showcaseManifest = null;
-let currentShowcaseTab = null;
-let currentShowcaseIndex = 0;
-let currentCamera = 'camera0';
+const categoryState = {}; // { categoryName: { sceneIndex, camera } }
 
-// Load manifest and initialize
+// Physics categories order
+const PHYSICS_CATEGORIES = ['Mechanics', 'Fluid Dynamics', 'Magnetism', 'Optics'];
+
+// Initialize showcase
 function initShowcase() {
-  // Use manifest loaded via script tag (avoids CORS issues with file://)
   if (!window.SHOWCASE_MANIFEST) {
     console.error('Showcase manifest not loaded. Make sure manifest.js is included.');
     return;
@@ -446,252 +421,323 @@ function initShowcase() {
   
   showcaseManifest = window.SHOWCASE_MANIFEST;
   
-  // Generate tab buttons
-  generateTabs();
+  // Initialize state for each category
+  PHYSICS_CATEGORIES.forEach(cat => {
+    const category = showcaseManifest.categories[cat];
+    if (category && category.scenes && category.scenes.length > 0) {
+      const scene = category.scenes[0];
+      const randomCamera = getRandomCamera(scene.cameras);
+      categoryState[cat] = { sceneIndex: 0, camera: randomCamera };
+    }
+  });
   
-  // Set initial tab (first non-Debug category, or first available)
-  const categories = Object.keys(showcaseManifest.categories);
-  currentShowcaseTab = categories.find(c => c !== 'Debug') || categories[0];
-  currentShowcaseIndex = 0;
-  
-  // Generate camera selector after tab/scene is set
-  generateCameraSelector();
-  
-  // Update tab active state and load video
-  updateTabActiveState();
-  loadShowcaseVideo();
+  // Generate category rows
+  generateCategoryRows();
   
   console.log('Showcase initialized:', showcaseManifest);
 }
 
-// Generate tab buttons from manifest
-function generateTabs() {
-  const container = document.getElementById('showcase-tabs');
-  if (!container || !showcaseManifest) return;
-  
-  container.innerHTML = '';
-  
-  // Define display order (Debug first, then alphabetical)
-  const categories = Object.keys(showcaseManifest.categories);
-  const orderedCategories = ['Debug', 'Mechanics', 'Fluid Dynamics', 'Magnetism', 'Optics']
-    .filter(c => categories.includes(c));
-  // Add any categories not in the predefined order
-  categories.forEach(c => {
-    if (!orderedCategories.includes(c)) orderedCategories.push(c);
-  });
-  
-  orderedCategories.forEach(category => {
-    const btn = document.createElement('button');
-    btn.className = 'tab-btn';
-    btn.dataset.tab = category;
-    btn.onclick = () => switchShowcaseTab(category);
-    
-    // Add emoji for Debug
-    btn.textContent = category === 'Debug' ? '🔧 Debug' : category;
-    
-    container.appendChild(btn);
-  });
+// Get random camera from available cameras
+function getRandomCamera(cameras) {
+  if (!cameras || cameras.length === 0) return 'camera0';
+  return cameras[Math.floor(Math.random() * cameras.length)];
 }
 
-// Generate camera selector options from current scene
-function generateCameraSelector() {
-  const select = document.getElementById('camera-select');
-  if (!select || !showcaseManifest) return;
-  
-  const category = showcaseManifest.categories[currentShowcaseTab];
-  if (!category || category.mode !== 'multi') {
-    select.innerHTML = '';
-    return;
-  }
-  
-  const scene = category.scenes[currentShowcaseIndex];
-  if (!scene || !scene.cameras || scene.cameras.length === 0) {
-    select.innerHTML = '';
-    return;
-  }
-  
-  select.innerHTML = '';
-  
-  // Display sequential numbers (0, 1, 2...) but value is actual camera name
-  scene.cameras.forEach((camera, index) => {
-    const option = document.createElement('option');
-    option.value = camera;
-    // Format display name as sequential number
-    if (camera === 'cameraMoving') {
-      option.textContent = 'Moving Camera';
-    } else {
-      option.textContent = 'Camera ' + index;
-    }
-    select.appendChild(option);
-  });
-  
-  // Set current camera to first available if current is not in list
-  if (!scene.cameras.includes(currentCamera)) {
-    currentCamera = scene.cameras[0];
-    select.value = currentCamera;
-  }
+// Parse scene name to get physics count (single/double/triple)
+function getPhysicsType(sceneName) {
+  if (!sceneName) return 'Unknown';
+  // Split by double underscore to get first part
+  const parts = sceneName.split('__');
+  const physicsPart = parts[0];
+  // Count underscores in physics part to determine count
+  const phenomena = physicsPart.split('_').filter(p => p.length > 0);
+  if (phenomena.length >= 3) return 'Triple-Physics';
+  if (phenomena.length === 2) return 'Double-Physics';
+  return 'Single-Physics';
 }
 
-// Generate video indicators
-function generateIndicators(count) {
-  const container = document.getElementById('showcase-indicators');
-  if (!container) return;
-  
-  container.innerHTML = '';
-  
-  for (let i = 0; i < count; i++) {
-    const indicator = document.createElement('span');
-    indicator.className = 'indicator' + (i === currentShowcaseIndex ? ' active' : '');
-    indicator.onclick = () => goToShowcaseVideo(i);
-    container.appendChild(indicator);
-  }
+// Get physics type CSS class
+function getPhysicsTypeClass(type) {
+  if (type === 'Triple-Physics') return 'physics-badge-triple';
+  if (type === 'Double-Physics') return 'physics-badge-double';
+  return 'physics-badge-single';
 }
 
-// Check if current tab is multi-video mode
-function isMultiVideoTab(tab) {
-  if (!showcaseManifest) return false;
-  const category = showcaseManifest.categories[tab];
-  return category && category.mode === 'multi';
-}
-
-// Get video/scene count for current tab
-function getVideoCount() {
-  if (!showcaseManifest) return 0;
-  const category = showcaseManifest.categories[currentShowcaseTab];
-  if (!category) return 0;
-  
-  if (category.mode === 'multi') {
-    return category.scenes.length;
-  }
-  return category.videos?.length || 0;
-}
-
-// Build video path for multi-video mode
+// Build video path
 function buildVideoPath(scene, camera, modality) {
   const suffix = modality === 'rgb' ? '' : '_' + modality;
   return `${scene.basePath}/${scene.sceneName}_${camera}${suffix}_h264.mp4`;
 }
 
-function loadShowcaseVideo() {
-  if (!showcaseManifest) return;
+// Build caption path
+function buildCaptionPath(scene) {
+  return `${scene.basePath}/caption.txt`;
+}
+
+// Generate all category rows
+function generateCategoryRows() {
+  const container = document.getElementById('showcase-categories-container');
+  if (!container || !showcaseManifest) return;
   
-  const singleContainer = document.getElementById('single-video-container');
-  const multiContainer = document.getElementById('multi-video-container');
-  const category = showcaseManifest.categories[currentShowcaseTab];
+  container.innerHTML = '';
   
-  if (!category) return;
+  PHYSICS_CATEGORIES.forEach(categoryName => {
+    const category = showcaseManifest.categories[categoryName];
+    if (!category || !category.scenes || category.scenes.length === 0) return;
+    
+    const row = createCategoryRow(categoryName, category);
+    container.appendChild(row);
+  });
+}
+
+// Create a single category row
+function createCategoryRow(categoryName, category) {
+  const state = categoryState[categoryName];
+  const scene = category.scenes[state.sceneIndex];
+  const physicsType = getPhysicsType(scene.sceneName);
+  const physicsClass = getPhysicsTypeClass(physicsType);
+  
+  const catId = categoryName.replace(/\s+/g, '-');
+  
+  const row = document.createElement('div');
+  row.className = 'category-showcase-row';
+  row.id = `category-row-${catId}`;
+  
+  row.innerHTML = `
+    <div class="category-header">
+      <h3 class="category-title">${categoryName}</h3>
+      <span class="physics-badge ${physicsClass}" id="physics-badge-${catId}">${physicsType}</span>
+      <span class="camera-view-badge" id="camera-badge-${catId}">
+        <i class="fas fa-video"></i> ${formatCameraName(state.camera)}
+      </span>
+    </div>
+    
+    <div class="category-video-row">
+      <button class="showcase-arrow showcase-arrow-left" type="button" onclick="prevScene('${categoryName}')">&#10094;</button>
+      
+      <div class="multi-video-grid">
+        <div class="video-panel">
+          <div class="video-panel-label rgb">RGB</div>
+          <video id="video-rgb-${catId}" muted playsinline preload="metadata"></video>
+        </div>
+        <div class="video-panel">
+          <div class="video-panel-label depth">Depth</div>
+          <video id="video-depth-${catId}" muted playsinline preload="metadata"></video>
+        </div>
+        <div class="video-panel">
+          <div class="video-panel-label seg">Segmentation</div>
+          <video id="video-seg-${catId}" muted playsinline preload="metadata"></video>
+        </div>
+      </div>
+      
+      <button class="showcase-arrow showcase-arrow-right" type="button" onclick="nextScene('${categoryName}')">&#10095;</button>
+    </div>
+    
+    <div class="category-controls">
+      <div class="scene-indicators" id="indicators-${catId}">
+        ${generateIndicatorsHTML(categoryName, category.scenes.length, state.sceneIndex)}
+      </div>
+      
+      <div class="camera-selector">
+        <label for="camera-select-${catId}">View:</label>
+        <select id="camera-select-${catId}" onchange="switchCameraFor('${categoryName}', this.value)">
+          ${generateCameraOptionsHTML(scene.cameras, state.camera)}
+        </select>
+      </div>
+    </div>
+    
+    <div class="scene-caption" id="caption-${catId}">
+      <span class="caption-loading">Loading description...</span>
+    </div>
+  `;
+  
+  // Load videos after DOM insertion
+  setTimeout(() => {
+    loadCategoryVideos(categoryName);
+    loadSceneCaption(categoryName);
+  }, 0);
+  
+  return row;
+}
+
+// Format camera name for display
+function formatCameraName(camera) {
+  if (camera === 'cameraMoving') return 'Moving';
+  // Extract number from camera name
+  const match = camera.match(/camera(\d+)/);
+  return match ? `Cam ${match[1]}` : camera;
+}
+
+// Generate indicators HTML
+function generateIndicatorsHTML(categoryName, count, activeIndex) {
+  let html = '';
+  for (let i = 0; i < count; i++) {
+    const activeClass = i === activeIndex ? 'active' : '';
+    html += `<span class="indicator ${activeClass}" onclick="goToScene('${categoryName}', ${i})"></span>`;
+  }
+  return html;
+}
+
+// Generate camera options HTML
+function generateCameraOptionsHTML(cameras, selectedCamera) {
+  if (!cameras || cameras.length === 0) return '';
+  
+  return cameras.map((camera, index) => {
+    const selected = camera === selectedCamera ? 'selected' : '';
+    const label = camera === 'cameraMoving' ? 'Moving Camera' : `Camera ${index}`;
+    return `<option value="${camera}" ${selected}>${label}</option>`;
+  }).join('');
+}
+
+// Load videos for a category
+function loadCategoryVideos(categoryName) {
+  const category = showcaseManifest.categories[categoryName];
+  const state = categoryState[categoryName];
+  if (!category || !state) return;
+  
+  const scene = category.scenes[state.sceneIndex];
+  const catId = categoryName.replace(/\s+/g, '-');
+  
+  const videoRgb = document.getElementById(`video-rgb-${catId}`);
+  const videoDepth = document.getElementById(`video-depth-${catId}`);
+  const videoSeg = document.getElementById(`video-seg-${catId}`);
+  
+  const rgbPath = buildVideoPath(scene, state.camera, 'rgb');
+  const depthPath = buildVideoPath(scene, state.camera, 'depth');
+  const segPath = buildVideoPath(scene, state.camera, 'seg');
+  
+  [videoRgb, videoDepth, videoSeg].forEach((video, idx) => {
+    if (!video) return;
+    const path = [rgbPath, depthPath, segPath][idx];
+    video.src = encodeURI(path);
+    video.load();
+    // Auto-play when loaded
+    video.onloadeddata = () => {
+      video.play().catch(e => console.log('Autoplay prevented:', e));
+    };
+  });
+  
+  // Auto-advance to next scene when RGB video ends (only listen on RGB to avoid triple-firing)
+  if (videoRgb) {
+    videoRgb.onended = () => {
+      nextScene(categoryName);
+    };
+  }
+  
+  // Update physics badge
+  const physicsType = getPhysicsType(scene.sceneName);
+  const badgeEl = document.getElementById(`physics-badge-${catId}`);
+  if (badgeEl) {
+    badgeEl.textContent = physicsType;
+    badgeEl.className = `physics-badge ${getPhysicsTypeClass(physicsType)}`;
+  }
+  
+  // Update camera badge
+  const cameraBadge = document.getElementById(`camera-badge-${catId}`);
+  if (cameraBadge) {
+    cameraBadge.innerHTML = `<i class="fas fa-video"></i> ${formatCameraName(state.camera)}`;
+  }
+  
+  // Update camera selector
+  const cameraSelect = document.getElementById(`camera-select-${catId}`);
+  if (cameraSelect) {
+    cameraSelect.innerHTML = generateCameraOptionsHTML(scene.cameras, state.camera);
+  }
   
   // Update indicators
-  generateIndicators(getVideoCount());
+  const indicatorsEl = document.getElementById(`indicators-${catId}`);
+  if (indicatorsEl) {
+    indicatorsEl.innerHTML = generateIndicatorsHTML(categoryName, category.scenes.length, state.sceneIndex);
+  }
   
-  if (category.mode === 'multi') {
-    // Multi-video mode
-    singleContainer.style.display = 'none';
-    multiContainer.style.display = 'block';
-    
-    const scene = category.scenes[currentShowcaseIndex];
-    if (scene) {
-      const videoRgb = document.getElementById('showcase-video-rgb');
-      const videoDepth = document.getElementById('showcase-video-depth');
-      const videoSeg = document.getElementById('showcase-video-seg');
-      
-      const rgbPath = buildVideoPath(scene, currentCamera, 'rgb');
-      const depthPath = buildVideoPath(scene, currentCamera, 'depth');
-      const segPath = buildVideoPath(scene, currentCamera, 'seg');
-      
-      if (videoRgb) { videoRgb.src = encodeURI(rgbPath); videoRgb.load(); }
-      if (videoDepth) { videoDepth.src = encodeURI(depthPath); videoDepth.load(); }
-      if (videoSeg) { videoSeg.src = encodeURI(segPath); videoSeg.load(); }
-      
-      console.log('Loading multi-video:', currentShowcaseTab, currentShowcaseIndex, currentCamera);
+  console.log('Loaded:', categoryName, state.sceneIndex, state.camera);
+}
+
+// Load scene caption
+async function loadSceneCaption(categoryName) {
+  const category = showcaseManifest.categories[categoryName];
+  const state = categoryState[categoryName];
+  if (!category || !state) return;
+  
+  const scene = category.scenes[state.sceneIndex];
+  const catId = categoryName.replace(/\s+/g, '-');
+  const captionEl = document.getElementById(`caption-${catId}`);
+  
+  if (!captionEl) return;
+  
+  const captionPath = buildCaptionPath(scene);
+  
+  try {
+    const response = await fetch(encodeURI(captionPath));
+    if (response.ok) {
+      const text = await response.text();
+      captionEl.innerHTML = `<span class="caption-text">${text.trim()}</span>`;
+    } else {
+      captionEl.innerHTML = `<span class="caption-missing">Scene description is missing.</span>`;
     }
-  } else {
-    // Single video mode
-    singleContainer.style.display = 'flex';
-    multiContainer.style.display = 'none';
-    
-    const video = document.getElementById('showcase-video');
-    const videoPath = category.videos[currentShowcaseIndex];
-    
-    if (video && videoPath) {
-      video.onerror = (e) => console.error('Video error:', video.error);
-      video.onloadeddata = () => console.log('Video loaded:', video.videoWidth, 'x', video.videoHeight);
-      video.src = encodeURI(videoPath);
-      video.load();
-      console.log('Loading video:', currentShowcaseTab, currentShowcaseIndex, videoPath);
-    }
+  } catch (e) {
+    captionEl.innerHTML = `<span class="caption-missing">Scene description is missing.</span>`;
   }
 }
 
-function updateTabActiveState() {
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.tab === currentShowcaseTab);
-  });
-}
-
-function switchCamera(camera) {
-  currentCamera = camera;
-  loadShowcaseVideo();
-}
-
-function switchShowcaseTab(tab) {
-  currentShowcaseTab = tab;
-  currentShowcaseIndex = 0;
+// Navigate to previous scene
+function prevScene(categoryName) {
+  const category = showcaseManifest.categories[categoryName];
+  const state = categoryState[categoryName];
+  if (!category || !state) return;
   
-  // Camera will be updated by generateCameraSelector based on scene availability
-  updateTabActiveState();
+  const count = category.scenes.length;
+  state.sceneIndex = (state.sceneIndex - 1 + count) % count;
   
-  // Update camera selector for the first scene
-  generateCameraSelector();
+  // Random camera for new scene
+  const scene = category.scenes[state.sceneIndex];
+  state.camera = getRandomCamera(scene.cameras);
   
-  loadShowcaseVideo();
+  loadCategoryVideos(categoryName);
+  loadSceneCaption(categoryName);
 }
 
-function prevShowcaseVideo() {
-  const count = getVideoCount();
-  if (count === 0) return;
-  currentShowcaseIndex = (currentShowcaseIndex - 1 + count) % count;
-  generateCameraSelector();
-  loadShowcaseVideo();
+// Navigate to next scene
+function nextScene(categoryName) {
+  const category = showcaseManifest.categories[categoryName];
+  const state = categoryState[categoryName];
+  if (!category || !state) return;
+  
+  const count = category.scenes.length;
+  state.sceneIndex = (state.sceneIndex + 1) % count;
+  
+  // Random camera for new scene
+  const scene = category.scenes[state.sceneIndex];
+  state.camera = getRandomCamera(scene.cameras);
+  
+  loadCategoryVideos(categoryName);
+  loadSceneCaption(categoryName);
 }
 
-function nextShowcaseVideo() {
-  const count = getVideoCount();
-  if (count === 0) return;
-  currentShowcaseIndex = (currentShowcaseIndex + 1) % count;
-  generateCameraSelector();
-  loadShowcaseVideo();
+// Go to specific scene
+function goToScene(categoryName, index) {
+  const category = showcaseManifest.categories[categoryName];
+  const state = categoryState[categoryName];
+  if (!category || !state) return;
+  
+  state.sceneIndex = index;
+  
+  // Random camera for new scene
+  const scene = category.scenes[state.sceneIndex];
+  state.camera = getRandomCamera(scene.cameras);
+  
+  loadCategoryVideos(categoryName);
+  loadSceneCaption(categoryName);
 }
 
-function goToShowcaseVideo(index) {
-  currentShowcaseIndex = index;
-  generateCameraSelector();
-  loadShowcaseVideo();
-}
-
-// Sync playback functions for multi-video mode
-function syncPlayAll() {
-  ['showcase-video-rgb', 'showcase-video-depth', 'showcase-video-seg'].forEach(id => {
-    const video = document.getElementById(id);
-    if (video) video.play().catch(e => console.log('Play prevented:', e));
-  });
-}
-
-function syncPauseAll() {
-  ['showcase-video-rgb', 'showcase-video-depth', 'showcase-video-seg'].forEach(id => {
-    const video = document.getElementById(id);
-    if (video) video.pause();
-  });
-}
-
-function syncRestartAll() {
-  ['showcase-video-rgb', 'showcase-video-depth', 'showcase-video-seg'].forEach(id => {
-    const video = document.getElementById(id);
-    if (video) {
-      video.currentTime = 0;
-      video.play().catch(e => console.log('Play prevented:', e));
-    }
-  });
+// Switch camera for a category (manual selection)
+function switchCameraFor(categoryName, camera) {
+  const state = categoryState[categoryName];
+  if (!state) return;
+  
+  state.camera = camera;
+  loadCategoryVideos(categoryName);
+  // Don't reload caption - it's the same scene
 }
 
 // Initialize on page load
@@ -710,14 +756,52 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<!-- Contributor Wall -->
+<!-- Authors Wall -->
 <section class="section contributor-wall-section">
   <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Contributors</h2>
+    <h2 class="title is-3 has-text-centered">Authors</h2>
     <div id="contributors-grid" class="contributors-grid"></div>
   </div>
 </section>
-<!-- End Contributor Wall -->
+<!-- End Authors Wall -->
+
+<!-- Acknowledgement -->
+<section class="section acknowledgement-section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-4 has-text-centered">Acknowledgement</h2>
+        <div class="content has-text-justified acknowledgement-content">
+          <p>
+            We would like to express our sincere gratitude to (in alphabetical order) Geer Chen, Jinhe Chen, Zhiyuan Chen, Yuanhaonan Deng, Shuo Feng, Wenxuan Guo, Junpeng Hu, Ruitao Hu, Ying Ji, Yixuan Jiang, Jiani Liu, Xinjie Liu, Xinsheng Liu, Jiyuan Ma, Qiyue Ma, Chenyang Mao, Yukun Miao, Ye Peng, Yuanyue Qiao, Dacheng Qin, Xiangnuo Ren, Xiaowen Song, Jingqi Tian, Hong Wang, Huixuechun Wang, Zheng Wang, Weipeng Wu, Zhaowei Wu, Kai Xing, Ran Yan, Leize Yang, Ruizhe Yang, Ao Yu, and Minhao Zhu for their essential contributions and dedicated efforts in conducting human evaluations.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Acknowledgement -->
+
+<!-- Visitor Distribution (temporarily disabled)
+<section class="section visitor-section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-4 has-text-centered">Visitor Distribution</h2>
+    <p class="has-text-centered visitor-description">A live view of where visitors are accessing the PhysInOne project page worldwide.</p>
+    <table width="100%" align="center" border="0" cellspacing="0" cellpadding="20">
+      <tbody>
+        <tr>
+          <td width="100%" align="center">
+            <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=300&t=tt&d=1yPWWuOlXo22MrO9sRinBO9GUjLHe88Yk0lOK35nmQA&co=2d78ad&cmo=3acc3a&cmn=ff5353&ct=ffffff"></script>
+            <noscript>
+              <p style="color:#888; font-size:0.9rem;">Visitor map requires JavaScript to display.</p>
+            </noscript>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+End Visitor Distribution -->
 
   <footer class="footer">
   <div class="container">
